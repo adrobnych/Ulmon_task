@@ -22,7 +22,7 @@ public class GalleryApp extends Application {
                 if (null == gManager) {
 
                     gManager = new GalleryImageManager();
-                    gManager.setGalleryHTTPHelper(new GalleryImageHTTPHelper());
+                    gManager.setGalleryHTTPHelper(new GalleryImageHTTPHelper(gManager));
                     gManager.setGalleryItems(new TreeMap<Integer, Map<String, String>>());
 
                 }

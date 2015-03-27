@@ -8,6 +8,10 @@ import com.example.adrobnych.ulmonpager.GalleryApp;
 import com.example.adrobnych.ulmonpager.model.GalleryImageHTTPHelper;
 import com.example.adrobnych.ulmonpager.model.GalleryImageManager;
 
+import org.json.JSONException;
+
+import java.io.IOException;
+
 
 public class GalleryDataLoaderService extends IntentService {
     private String result = null;
@@ -24,7 +28,13 @@ public class GalleryDataLoaderService extends IntentService {
         GalleryImageHTTPHelper gh = gm.getGalleryHTTPHelper();
         result = "errorFetchingJson";
 
-        result = gh.fetchRemoteJsonString();
+        try {
+            result = gh.fetchRemoteJsonString();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+        e.printStackTrace();
+        }
 
         publishResults(result);
     }
