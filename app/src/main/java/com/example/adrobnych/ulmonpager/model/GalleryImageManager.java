@@ -31,7 +31,7 @@ public class GalleryImageManager {
     private Map<Integer, Map<String, String>> galleryItems;
 
     public void addGalleryItem(String message, String url){
-        int nextId = galleryItems.size() + 1;
+        int nextId = galleryItems.size();
         Map<String, String> data = new HashMap<>();
         data.put(MESSAGE, message);
         data.put(IMAGE_URL, url);

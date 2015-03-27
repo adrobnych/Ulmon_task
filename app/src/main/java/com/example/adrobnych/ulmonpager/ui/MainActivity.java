@@ -36,6 +36,8 @@ public class MainActivity extends ActionBarActivity {
                             Toast.LENGTH_LONG).show();
                     //todo notify views...
                     tv.setText(result);
+                    Intent i = new Intent(MainActivity.this, ImagePagerActivity.class);
+                    startActivity(i);
                 } else {
                     Toast.makeText(MainActivity.this, "Download failed",
                             Toast.LENGTH_LONG).show();
@@ -57,8 +59,7 @@ public class MainActivity extends ActionBarActivity {
 
                 LoadGalleryMessagesAndURLs();
 
-                //Intent i = new Intent(MainActivity.this, ImagePagerActivity.class);
-                //startActivity(i);
+
             }
         });
     }
