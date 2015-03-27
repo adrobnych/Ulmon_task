@@ -10,6 +10,16 @@ public class GalleryImageManager {
     public static final String MESSAGE = "message";
     public static final String IMAGE_URL = "image_url";
 
+    public GalleryImageHTTPHelper getGalleryHTTPHelper() {
+        return galleryHTTPHelper;
+    }
+
+    public void setGalleryHTTPHelper(GalleryImageHTTPHelper galleryHTTPHelper) {
+        this.galleryHTTPHelper = galleryHTTPHelper;
+    }
+
+    private GalleryImageHTTPHelper galleryHTTPHelper;
+
     public Map<Integer, Map<String, String>> getGalleryItems() {
         return galleryItems;
     }

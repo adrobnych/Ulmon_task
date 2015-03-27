@@ -1,20 +1,37 @@
 package com.example.adrobnych.ulmonpager.ui;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.adrobnych.ulmonpager.GalleryApp;
 import com.example.adrobnych.ulmonpager.R;
+import com.example.adrobnych.ulmonpager.model.GalleryImageHTTPHelper;
+import com.example.adrobnych.ulmonpager.model.GalleryImageManager;
+import com.example.adrobnych.ulmonpager.services.GalleryDataLoaderService;
 
 
 public class ImagePagerActivity extends ActionBarActivity {
+
+
+    private GalleryImageManager gm;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_pager);
+        gm = ((GalleryApp) getApplication()).getGalleryManager();
+
     }
+
 
 
     @Override
