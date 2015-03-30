@@ -70,6 +70,8 @@ public class GalleryImageHTTPHelper {
         //feed galleryData
         JSONArray jPoisArray = jReturnObject.getJSONArray("pois");
 
+        gm.clearData();
+
         for (int i=0; i < jPoisArray.length(); i++)
         {
             String message = jPoisArray.getJSONObject(i).getString("recMessage");

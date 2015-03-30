@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.adrobnych.ulmonpager.GalleryApp;
 import com.example.adrobnych.ulmonpager.R;
@@ -24,7 +25,7 @@ import java.net.URL;
 public class GalleryImageFragment extends Fragment {
 
     private int page;
-    Bitmap bmp;
+    static Bitmap bmp;
     ImageView im;
     URL url;
 
@@ -52,6 +53,12 @@ public class GalleryImageFragment extends Fragment {
 
         GalleryImageManager gm = ((GalleryApp)getActivity().getApplication()).getGalleryManager();
 
+        TextView messageTV = (TextView) view.findViewById(R.id.tvMessageTitle);
+        messageTV.setText(gm.getGalleryItemById(page).get(GalleryImageManager.MESSAGE));
+
+        TextView pageTV = (TextView) view.findViewById(R.id.tvPageCounter);
+        pageTV.setText(""+page+"/"+gm.getGallerySize());
+
         url = null;
         try {
             url = new URL(gm.getGalleryItemById(page).get(GalleryImageManager.IMAGE_URL));
@@ -78,14 +85,10 @@ public class GalleryImageFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String result) {
+
             im.setImageBitmap(bmp);
         }
 
-        @Override
-        protected void onPreExecute() {}
-
-        @Override
-        protected void onProgressUpdate(Void... values) {}
     }
 
 

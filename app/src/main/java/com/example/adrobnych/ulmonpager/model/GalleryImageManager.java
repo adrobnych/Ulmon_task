@@ -45,4 +45,8 @@ public class GalleryImageManager {
     public Map<String, String> getGalleryItemById(int id){
         return galleryItems.get(id);
     }
+
+    public void clearData(){
+        galleryItems.clear();
+    }
 }

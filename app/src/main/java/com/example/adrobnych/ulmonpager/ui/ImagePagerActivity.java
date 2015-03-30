@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -29,7 +30,6 @@ public class ImagePagerActivity extends ActionBarActivity {
 
 
     private GalleryImageManager gm;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
