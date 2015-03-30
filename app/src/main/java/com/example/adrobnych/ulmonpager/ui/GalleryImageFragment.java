@@ -18,8 +18,10 @@ import com.example.adrobnych.ulmonpager.R;
 import com.example.adrobnych.ulmonpager.model.GalleryImageManager;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 
 
 public class GalleryImageFragment extends Fragment {
@@ -57,7 +59,7 @@ public class GalleryImageFragment extends Fragment {
         messageTV.setText(gm.getGalleryItemById(page).get(GalleryImageManager.MESSAGE));
 
         TextView pageTV = (TextView) view.findViewById(R.id.tvPageCounter);
-        pageTV.setText(""+page+"/"+gm.getGallerySize());
+        pageTV.setText("" + page + "/" + gm.getGallerySize());
 
         url = null;
         try {
@@ -76,7 +78,9 @@ public class GalleryImageFragment extends Fragment {
         protected String doInBackground(String... params) {
             bmp = null;
             try {
-                bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                URLConnection connection = url.openConnection();
+                connection.setUseCaches(true);
+                bmp = BitmapFactory.decodeStream((InputStream)connection.getContent());
             } catch (IOException e) {
                 e.printStackTrace();
             }
