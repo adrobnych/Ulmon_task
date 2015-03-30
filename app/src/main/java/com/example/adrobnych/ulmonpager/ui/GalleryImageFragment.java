@@ -27,9 +27,11 @@ import java.net.URLConnection;
 public class GalleryImageFragment extends Fragment {
 
     private int page;
-    static Bitmap bmp;
+    Bitmap bmp;
     ImageView im;
     URL url;
+    View view;
+    GalleryImageManager gm;
 
     public static GalleryImageFragment newInstance(int page) {
         GalleryImageFragment f = new GalleryImageFragment();
@@ -50,11 +52,17 @@ public class GalleryImageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_gallery_image, container, false);
+        view = inflater.inflate(R.layout.fragment_gallery_image, container, false);
         im = (ImageView) view.findViewById(R.id.imageView);
 
-        GalleryImageManager gm = ((GalleryApp)getActivity().getApplication()).getGalleryManager();
+        gm = ((GalleryApp)getActivity().getApplication()).getGalleryManager();
 
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         TextView messageTV = (TextView) view.findViewById(R.id.tvMessageTitle);
         messageTV.setText(gm.getGalleryItemById(page).get(GalleryImageManager.MESSAGE));
 
@@ -69,7 +77,6 @@ public class GalleryImageFragment extends Fragment {
         }
         new LongOperation().execute("");
 
-        return view;
     }
 
     private class LongOperation extends AsyncTask<String, Void, String> {
