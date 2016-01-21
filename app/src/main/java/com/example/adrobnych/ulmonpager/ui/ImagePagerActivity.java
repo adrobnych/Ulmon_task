@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -21,6 +22,8 @@ import com.example.adrobnych.ulmonpager.model.GalleryImageHTTPHelper;
 import com.example.adrobnych.ulmonpager.model.GalleryImageManager;
 import com.example.adrobnych.ulmonpager.services.GalleryDataLoaderService;
 
+import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,16 +33,37 @@ public class ImagePagerActivity extends ActionBarActivity {
 
     private GalleryImageManager gm;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        enableHTTPResponceCache();
+
         setContentView(R.layout.activity_image_pager);
         gm = ((GalleryApp) getApplication()).getGalleryManager();
 
         ViewPager pager = (ViewPager) findViewById(R.id.pager);
         pager.setAdapter(new MyPagerAdapter(getSupportFragmentManager(), getAllFragments()));
 
+    }
+
+    private void enableHTTPResponceCache(){
+        try {
+            long httpCacheSize = 50 * 1024 * 1024;
+            File httpCacheDir = new File(getCacheDir() + "http");
+
+            Class.forName("android.net.http.HttpResponseCache")
+                    .getMethod("install", File.class, long.class)
+                    .invoke(null, httpCacheDir, httpCacheSize);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private Map<Integer, Fragment> getAllFragments() {

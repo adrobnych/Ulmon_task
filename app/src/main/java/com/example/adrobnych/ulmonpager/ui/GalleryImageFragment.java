@@ -11,14 +11,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.adrobnych.ulmonpager.GalleryApp;
 import com.example.adrobnych.ulmonpager.R;
 import com.example.adrobnych.ulmonpager.model.GalleryImageManager;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 
 
 public class GalleryImageFragment extends Fragment {
@@ -27,6 +30,8 @@ public class GalleryImageFragment extends Fragment {
     Bitmap bmp;
     ImageView im;
     URL url;
+    View view;
+    GalleryImageManager gm;
 
     public static GalleryImageFragment newInstance(int page) {
         GalleryImageFragment f = new GalleryImageFragment();
@@ -47,10 +52,22 @@ public class GalleryImageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_gallery_image, container, false);
+        view = inflater.inflate(R.layout.fragment_gallery_image, container, false);
         im = (ImageView) view.findViewById(R.id.imageView);
 
-        GalleryImageManager gm = ((GalleryApp)getActivity().getApplication()).getGalleryManager();
+        gm = ((GalleryApp)getActivity().getApplication()).getGalleryManager();
+
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        TextView messageTV = (TextView) view.findViewById(R.id.tvMessageTitle);
+        messageTV.setText(gm.getGalleryItemById(page).get(GalleryImageManager.MESSAGE));
+
+        TextView pageTV = (TextView) view.findViewById(R.id.tvPageCounter);
+        pageTV.setText("" + page + "/" + gm.getGallerySize());
 
         url = null;
         try {
@@ -60,7 +77,6 @@ public class GalleryImageFragment extends Fragment {
         }
         new LongOperation().execute("");
 
-        return view;
     }
 
     private class LongOperation extends AsyncTask<String, Void, String> {
@@ -69,7 +85,9 @@ public class GalleryImageFragment extends Fragment {
         protected String doInBackground(String... params) {
             bmp = null;
             try {
-                bmp = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+                URLConnection connection = url.openConnection();
+                connection.setUseCaches(true);
+                bmp = BitmapFactory.decodeStream((InputStream)connection.getContent());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -78,14 +96,10 @@ public class GalleryImageFragment extends Fragment {
 
         @Override
         protected void onPostExecute(String result) {
+
             im.setImageBitmap(bmp);
         }
 
-        @Override
-        protected void onPreExecute() {}
-
-        @Override
-        protected void onProgressUpdate(Void... values) {}
     }
 
 
